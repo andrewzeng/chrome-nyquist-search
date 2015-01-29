@@ -1,2 +1,2 @@
 # chrome-nyquist-search
-Toy omnibox search extension
+A toy omnibox search extension for the Nyquist programming language. 
