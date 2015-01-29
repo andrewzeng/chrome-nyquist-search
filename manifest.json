@@ -7,7 +7,7 @@
   "version": "1.0",
 
   "omnibox": { "keyword" : "nyq" },
-
+  "icons": {"128": "nyquist-icon.png"},
   "background": {
     "scripts": ["background.js"]
   }

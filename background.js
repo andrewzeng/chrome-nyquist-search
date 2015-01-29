@@ -6,35 +6,38 @@ function navigate(url) {
     });
 }
 
-
-chrome.omnibox.setDefaultSuggestion({description: "Search Nyquist docs for %s "});
-
 chrome.omnibox.onInputChanged.addListener(function (text, suggest) {
-    var results = [];
+    if (text.length == 0) {
+        chrome.omnibox.setDefaultSuggestion({description: "View Nyquist docs. "});
+    }
+    else {
+        var results = [];
 
-    words.forEach(function (entry) {
-        if ((entry.indexOf(text) == 0 || (entry.indexOf(text) == 1 && entry[0] == "*")) && results.length < 20) {
-            results.push(entry);
-        }
-    });
-
-    words.forEach(function (entry) {
-        if (entry.indexOf(text) > -1 && results.length < 20 && results.indexOf(entry) == -1) {
-            results.push(entry);
-        }
-    });
-
-    if (results.length > 0) {
-        results = results.map(function (name) {
-            return {
-                content: name,
-                description: "Search Nyquist docs for " + name
+        words.forEach(function (entry) {
+            if ((entry.indexOf(text) == 0 || (entry.indexOf(text) == 1 && entry[0] == "*")) && results.length < 20) {
+                results.push(entry);
             }
         });
 
-        suggest(results);
-    }
+        words.forEach(function (entry) {
+            if (entry.indexOf(text) > -1 && results.length < 20 && results.indexOf(entry) == -1) {
+                results.push(entry);
+            }
+        });
 
+        if (results.length > 0) {
+            results = results.map(function (name) {
+                return {
+                    content: name,
+                    description: "Search Nyquist docs for " + name
+                }
+            });
+
+            suggest(results);
+        }
+
+        chrome.omnibox.setDefaultSuggestion({description: "Search Nyquist docs for %s "});
+    }
 });
 
 chrome.omnibox.onInputEntered.addListener(function (text) {
